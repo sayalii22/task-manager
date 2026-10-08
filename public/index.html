@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskPulse is a modern, full-stack Task Management application featuring Kanban boards, calendar views, priority tracking, and analytics.">
+  <title>TaskPulse &bull; Intelligent Task Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hero-section {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 840px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 24px 80px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all var(--transition-normal);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div style="background: var(--bg-app); min-height: 100vh;">
+    <!-- Landing Navigation -->
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; border-bottom: 1px solid var(--border-subtle); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50; background: var(--bg-surface-glass);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="brand-icon">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <span class="brand-title">TaskPulse</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="btn-icon theme-toggle-btn" title="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="/login" class="btn-secondary">Sign In</a>
+        <a href="/register" class="btn-primary">Get Started Free</a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <i class="fa-solid fa-bolt"></i> Full-Stack Productivity Suite
+      </div>
+      <h1 class="hero-title">
+        Organize, Track & Conquer Your Daily Goals With <span>Intelligent Flow</span>
+      </h1>
+      <p class="hero-desc">
+        A high-performance SaaS task manager with drag-and-drop Kanban boards, interactive calendar scheduling, deadline reminders, and real-time analytics.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="/login" class="btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+          <i class="fa-solid fa-rocket"></i> Launch Dashboard
+        </a>
+        <a href="/register" class="btn-secondary" style="padding: 14px 24px; font-size: 1rem;">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </a>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text-tertiary); flex-wrap: wrap; justify-content: center;">
+        <span><i class="fa-solid fa-check text-green-500"></i> JWT Authentication</span>
+        <span><i class="fa-solid fa-check text-green-500"></i> Drag-and-Drop Kanban</span>
+        <span><i class="fa-solid fa-check text-green-500"></i> Interactive Calendar</span>
+        <span><i class="fa-solid fa-check text-green-500"></i> CSV/JSON Export</span>
+        <span><i class="fa-solid fa-check text-green-500"></i> Dark & Light Modes</span>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-table-columns"></i>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem;">Drag-and-Drop Kanban</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          Effortlessly move tasks across To Do, In Progress, and Completed stages with smooth HTML5 drag-and-drop and instant backend sync.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem;">Real-Time Dashboard</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          Visualize your productivity with completion rings, 7-day trend activity charts, overdue detectors, and priority distributions.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem;">Calendar Scheduling</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          Inspect tasks by month, see deadlines at a glance with priority color chips, and schedule tasks directly onto specific dates.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem;">Secure Architecture</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          Enterprise-grade bcrypt password hashing, stateless JWT tokens, strict user task isolation, and rate-limiting security middleware.
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 32px 24px; border-top: 1px solid var(--border-subtle); color: var(--text-tertiary); font-size: 0.85rem;">
+      &copy; 2026 TaskPulse &bull; Built with Node.js, Express, Supabase PostgreSQL, and Vanilla JavaScript.
+    </footer>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    // If user is already authenticated, redirect straight to dashboard
+    if (window.Auth && window.Auth.isAuthenticated()) {
+      window.location.href = '/dashboard';
+    }
+    // Initialize theme
+    const savedTheme = localStorage.getItem('tm_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const themeBtn = document.querySelector('.theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        const next = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('tm_theme', next);
+      });
+    }
+  </script>
+</body>
+</html>

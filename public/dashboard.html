@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Productivity dashboard showing real-time task metrics, completion rates, 7-day activity trend, and upcoming deadlines.">
+  <title>Dashboard &bull; TaskPulse Manager</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <span class="brand-title">TaskPulse</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-label">Navigation</span>
+        <a href="/dashboard" class="nav-link active">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/tasks" class="nav-link">
+          <i class="fa-solid fa-table-columns"></i>
+          <span>Tasks & Board</span>
+        </a>
+        <a href="/calendar" class="nav-link">
+          <i class="fa-regular fa-calendar-days"></i>
+          <span>Calendar</span>
+        </a>
+
+        <span class="nav-label" style="margin-top: 16px;">Quick Actions</span>
+        <button class="nav-link" onclick="window.openCreateTaskModal()" style="text-align: left; width: 100%;">
+          <i class="fa-solid fa-circle-plus" style="color: var(--primary);"></i>
+          <span>Add New Task</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-avatar">
+          <span class="user-avatar-text">U</span>
+        </div>
+        <div class="user-info">
+          <div class="user-name">Loading...</div>
+          <div class="user-email">...</div>
+        </div>
+        <button class="btn-icon btn-logout" title="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main View -->
+    <main class="app-main">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="btn-icon sidebar-toggle-btn" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-box">
+            <h1>Productivity Dashboard</h1>
+            <p>Welcome back! Here's your task overview and upcoming milestones.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Bell -->
+          <div class="notification-wrapper">
+            <button class="btn-icon notification-toggle" title="Notifications">
+              <i class="fa-regular fa-bell"></i>
+            </button>
+            <span class="notification-badge" style="display: none;">0</span>
+
+            <div class="notification-dropdown">
+              <div class="notif-header">
+                <h4><i class="fa-solid fa-bell"></i> Reminders & Alerts</h4>
+              </div>
+              <div class="notif-list">
+                <div style="text-align: center; color: var(--text-tertiary); padding: 16px;">Scanning deadlines...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Create Task CTA -->
+          <button class="btn-primary" onclick="window.openCreateTaskModal()">
+            <i class="fa-solid fa-plus"></i> New Task
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-container">
+        <!-- Overview Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon-box icon-indigo">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="metric-data">
+              <div class="metric-label">Total Tasks</div>
+              <div class="metric-value" id="statTotal">0</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box icon-blue">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="metric-data">
+              <div class="metric-label">Pending (To Do)</div>
+              <div class="metric-value" id="statPending">0</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box icon-amber">
+              <i class="fa-solid fa-spinner"></i>
+            </div>
+            <div class="metric-data">
+              <div class="metric-label">In Progress</div>
+              <div class="metric-value" id="statProgress">0</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box icon-green">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="metric-data">
+              <div class="metric-label">Completed</div>
+              <div class="metric-value" id="statCompleted">0</div>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box icon-red">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="metric-data">
+              <div class="metric-label">Overdue</div>
+              <div class="metric-value" id="statOverdue" style="color: var(--priority-urgent);">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Widgets Row 1: Activity Chart + Completion Ring -->
+        <div class="dashboard-row">
+          <!-- 7-Day Completion Trend Chart -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <div class="widget-title">
+                <i class="fa-solid fa-chart-simple" style="color: var(--primary);"></i>
+                7-Day Activity & Completion Trend
+              </div>
+              <span style="font-size: 0.8rem; color: var(--text-tertiary);">Past week performance</span>
+            </div>
+
+            <div class="chart-container" id="activityChart">
+              <!-- Dynamically populated bars -->
+            </div>
+          </div>
+
+          <!-- Circular Completion Ring -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <div class="widget-title">
+                <i class="fa-solid fa-bullseye" style="color: var(--accent-completed);"></i>
+                Completion Rate
+              </div>
+            </div>
+
+            <div class="completion-circle-container">
+              <div class="circle-progress-wrapper">
+                <svg>
+                  <circle class="circle-bg" cx="70" cy="70" r="54"></circle>
+                  <circle class="circle-bar" id="completionCircleBar" cx="70" cy="70" r="54"></circle>
+                </svg>
+                <div class="circle-text">
+                  <div class="circle-percent" id="completionPercentText">0%</div>
+                  <div class="circle-sublabel">Finished</div>
+                </div>
+              </div>
+            </div>
+            <div style="text-align: center; margin-top: 10px; font-size: 0.88rem; color: var(--text-secondary);" id="completionRatioText">
+              0 of 0 tasks completed
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Widgets Row 2: Today's Tasks + Upcoming Deadlines -->
+        <div class="dashboard-row">
+          <!-- Today's Tasks -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <div class="widget-title">
+                <i class="fa-solid fa-calendar-day" style="color: var(--primary);"></i>
+                Today's Tasks
+              </div>
+              <a href="/tasks" style="font-size: 0.82rem; font-weight: 600; color: var(--primary);">View All &rarr;</a>
+            </div>
+
+            <div class="quick-task-list" id="todayTasksList">
+              <div style="text-align: center; padding: 20px; color: var(--text-tertiary);">Loading today's tasks...</div>
+            </div>
+          </div>
+
+          <!-- Upcoming Deadlines -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <div class="widget-title">
+                <i class="fa-solid fa-hourglass-half" style="color: #f59e0b;"></i>
+                Upcoming Deadlines
+              </div>
+            </div>
+
+            <div class="quick-task-list" id="upcomingDeadlinesList">
+              <div style="text-align: center; padding: 20px; color: var(--text-tertiary);">Loading upcoming deadlines...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Shared Global Task Modal (Create & Edit) -->
+  <div class="modal-backdrop" id="taskModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="taskModalTitle">Create New Task</h3>
+        <button class="btn-icon modal-close" title="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="taskForm">
+        <div class="modal-body">
+          <input type="hidden" id="modalTaskId">
+
+          <div class="form-group">
+            <label class="form-label" for="modalTaskTitle">Task Title *</label>
+            <input type="text" id="modalTaskTitle" class="form-control" placeholder="e.g. Design Landing Page mockups" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalTaskDesc">Description</label>
+            <textarea id="modalTaskDesc" class="form-control" rows="3" placeholder="Provide extra context, requirements, or links..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Priority</label>
+            <div class="priority-selector">
+              <label class="priority-option">
+                <input type="radio" name="priority" value="low">
+                <div class="priority-box opt-low"><i class="fa-solid fa-arrow-down"></i> Low</div>
+              </label>
+              <label class="priority-option">
+                <input type="radio" name="priority" value="medium" checked>
+                <div class="priority-box opt-medium"><i class="fa-solid fa-minus"></i> Medium</div>
+              </label>
+              <label class="priority-option">
+                <input type="radio" name="priority" value="high">
+                <div class="priority-box opt-high"><i class="fa-solid fa-arrow-up"></i> High</div>
+              </label>
+              <label class="priority-option">
+                <input type="radio" name="priority" value="urgent">
+                <div class="priority-box opt-urgent"><i class="fa-solid fa-fire"></i> Urgent</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modalTaskCategory">Category</label>
+              <select id="modalTaskCategory" class="form-control">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="Study">Study</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Health">Health</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="modalTaskStatus">Status</label>
+              <select id="modalTaskStatus" class="form-control">
+                <option value="todo">To Do</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modalTaskDueDate">Due Date</label>
+              <input type="date" id="modalTaskDueDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tags (Type & Press Enter)</label>
+              <div class="tags-input-container">
+                <input type="text" id="modalTaskTagInput" placeholder="Add tag...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary modal-close">Cancel</button>
+          <button type="submit" class="btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
